@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "outDir": "./dist",
+    "pretty": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false
+  }
+}

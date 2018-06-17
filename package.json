@@ -1,0 +1,40 @@
+{
+  "name": "pathfinder-reference-document-scraper",
+  "version": "1.0.0",
+  "description": "Website scraper for the Pathfinder Reference Document website",
+  "main": "dist/scraper.js",
+  "files": [
+    "parsing"
+  ],
+  "bin": {
+    "prd-scraper": "./dist/main.js",
+    "prd-parser": "./dist/parsing/parser.js"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "preexecute": "npm run build",
+    "execute": "node --max-old-space-size=4096 ./dist/main.js"
+  },
+  "author": "eric.j.thomas1985@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "command-line-args": "^5.0.2",
+    "jsdom": "^11.11.0",
+    "linq": "^3.1.0",
+    "website-scraper": "^3.3.3",
+    "website-scraper-phantom": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/command-line-args": "^5.0.0",
+    "@types/jsdom": "^11.0.4",
+    "@types/linq": "^2.2.33",
+    "@types/node": "^8.10.18",
+    "@types/website-scraper": "^1.2.3",
+    "rimraf": "^2.6.2",
+    "source-map-support": "^0.5.6",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.1"
+  }
+}
