@@ -23,6 +23,6 @@ export class CastingTimeParser extends AbstractElementParser<ISpell> {
 		const rawCastingTime = rawValue.replace(property.Name, "");
 		Logger.debug(`setCastingTime: ${JSON.stringify(rawCastingTime)}`);
 
-		spell.CastingTime = rawCastingTime;
+		spell.CastingTime = rawCastingTime.trim();
 	}
 }

@@ -14,6 +14,7 @@ declare interface ISpell {
 	SpellResistance: string;
 	CastingTime: string;
 	Range: string;
+	Effect: string;
 	LevelRequirements: {
 		[key: string]: number;
 	};

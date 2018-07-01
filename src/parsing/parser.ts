@@ -45,8 +45,7 @@ class Parser {
 	@LogInvocation
 	parse() {
 		const self = this;
-		Enumerable
-			.from(Parser.scanDirectory(self.sourceDir))
+		Enumerable.from(Parser.scanDirectory(self.sourceDir))
 			.select(x => self.loadFile(x))
 			.select(x => self.parseToHtml(x))
 			.select(x => self.getImportantPart(x))
@@ -116,6 +115,12 @@ class Parser {
 		const element = state.document.querySelector("div.body-content div.body");
 		Logger.info(`filtering down to what we care about`);
 
+		const footer = element.querySelector("div.footer");
+		Logger.debug(`removing footer element|${footer.outerHTML}`);
+		if (footer) {
+			element.removeChild(footer);
+		}
+
 		if (element) {
 			state.element = element;
 		} else {
@@ -133,7 +138,6 @@ class Parser {
 		}
 
 		const element = state.element;
-
 		for (let parser of this.parsers) {
 			const returned = parser.toJson(element);
 			if (returned.success) {
@@ -177,7 +181,7 @@ class Parser {
 	private static endsWith(x: string, suffix: string): boolean {
 		const index = x.indexOf(suffix);
 		const result = index === (x.length - suffix.length);
-		// console.debug(`TESTING THAT "${x}" ENDS IN "${suffix}"|${result}|${index} === ${x.length - suffix.length}`);
+		// Logger.debug(`TESTING THAT "${x}" ENDS IN "${suffix}"|${result}|${index} === ${x.length - suffix.length}`);
 		return result;
 	}
 
@@ -193,15 +197,17 @@ function main(): void {
 	const optionDefinitions: commandLineArgs.OptionDefinition[] = [
 		{ name: "sourceDir", type: String },
 		{ name: "outDir", type: String },
-		{ name: "debug", type: Boolean },
+		{ name: "logLevel", type: String },
 		{ name: "newLog", type: Boolean },
 	];
 
 	const options = commandLineArgs(optionDefinitions)
 	const sourceDir = path.resolve(options.sourceDir);
 	const outDir = path.resolve(options.outDir);
-	if (options.debug) {
-		Logger.setLevel("DEBUG");
+	if (options.logLevel) {
+		Logger.setLevel(options.logLevel);
+	} else {
+		Logger.setLevel("INFO");
 	}
 
 	if (options.newLog) {
@@ -232,4 +238,22 @@ function main(): void {
 		.parse();
 }
 
-main();
+function replacer<T>(key: string, value: T): T | {} {
+	if (value instanceof Error) {
+		var error = {
+			message: value.message,
+			stack: value.stack.replace(/\\/g, "/").split("\n")
+		};
+
+		return error;
+	}
+
+	return value;
+}
+
+try {
+	main();
+} catch (e) {
+	Logger.error(`UNCAUGHT ERROR: ${JSON.stringify(e, replacer, 4)}`);
+	process.exit(-1);
+}

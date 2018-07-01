@@ -59,8 +59,12 @@ function toSpellComponent(x: string): ISpellComponent {
 	};
 
 	if (capture) {
-		spellComponent.Description = capture[1];
+		spellComponent.Description = toProperCase(capture[1]);
 	}
 
 	return spellComponent;
+}
+
+function toProperCase(str: string): string {
+    return str.substr(0, 1).toUpperCase() + str.slice(1);
 }

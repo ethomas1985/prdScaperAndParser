@@ -117,11 +117,11 @@ export function LogInvocation(
 		const params = paramsList.length > 1
 			? `\n\t${paramsList.join(",\n\t")}\n`
 			: paramsList[0];
-		_logger.debug(`LogInvocation|${targetName}|${propertyKey}|params|[${params}]`);
+		_logger.verbose(`LogInvocation|${targetName}|${propertyKey}|params|[${params}]`);
 
 		const result = originalMethod.apply(this, args);
 		if (result) {
-			_logger.debug(`LogInvocation|${targetName}|${propertyKey}|result|${JSON.stringify(result)}`);
+			_logger.verbose(`LogInvocation|${targetName}|${propertyKey}|result|${JSON.stringify(result)}`);
 		}
 
 		return result;
